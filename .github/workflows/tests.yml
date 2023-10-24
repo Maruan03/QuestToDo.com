@@ -1,19 +1,24 @@
 name: CI
 
-on: [ push ]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-
   test:
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-  steps:
-   - uses: actions/checkout@v2
-   - name: Set up JDK 21
-     uses: actions/setup-java@v2
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-     with:
-       distribution: "adopt"
-       java-version: 21
-       name: clean build
-       run: ./gradlew.bat clean test --info -- stacktrace
+      - name: Set up JDK 21
+        uses: actions/setup-java@v2
+        with:
+          distribution: "adopt"
+          java-version: 21
+
+      - name: Clean Build and Test
+        run: |
+          ./gradlew.bat clean test --info --stacktrace
