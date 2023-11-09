@@ -9,16 +9,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+
 @RestController
 @RequestMapping("/api/beispiele")
 public class BeispielController {
 
     @Autowired
-    private RepositoryBeispiel repositoryBeispiel;
+    private final RepositoryBeispiel repositoryBeispiel;
 
-    @GetMapping
-    public List<Beispiel> getAllBeispiele() {
-        return repositoryBeispiel.findAll();
+    @Autowired
+    public BeispielController(RepositoryBeispiel repositoryBeispiel) {
+        this.repositoryBeispiel = repositoryBeispiel;
     }
 
     @GetMapping("/{id}")
@@ -27,10 +28,20 @@ public class BeispielController {
         return beispiel.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
-    public Beispiel createBeispiel(@RequestBody Beispiel beispiel) {
-        return repositoryBeispiel.save(beispiel);
+    @GetMapping("/beispiel")
+    public ResponseEntity<Beispiel> showBeispielPage() {
+        Beispiel beispiel = new Beispiel();
+        beispiel.setUsername("Test");
+        return ResponseEntity.ok(beispiel);
     }
+
+
+    @PostMapping
+    public ResponseEntity<Beispiel> createBeispiel(@RequestBody Beispiel beispiel) {
+        repositoryBeispiel.save(beispiel);
+        return ResponseEntity.ok(beispiel);
+    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Beispiel> updateBeispiel(@PathVariable Long id, @RequestBody Beispiel updatedBeispiel) {
@@ -46,7 +57,6 @@ public class BeispielController {
             return ResponseEntity.notFound().build();
         }
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBeispiel(@PathVariable Long id) {

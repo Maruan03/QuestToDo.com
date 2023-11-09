@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Beispiel-Seite</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<h1>Beispiel-Seite</h1>
+
+<div id="beispielListe"></div>
+
+<form id="beispielForm">
+  <label for="username">Benutzername:</label><br>
+  <input type="text" id="username" name="username"><br>
+  <input type="submit" value="Erstellen">
+</form>
+
+<script>
+  $(document).ready(function(){
+    $.get("/api/beispiele", function(data, status){
+      data.forEach(function(item, index){
+        $("#beispielListe").append("<p>" + item.username + "</p>");
+      });
+    });
+
+    $("#beispielForm").submit(function(e){
+      e.preventDefault();
+      var username = $("#username").val();
+      $.ajax({
+        url: '/api/beispiele',
+        type: 'post',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function (data) {
+          $("#beispielListe").append("<p>" + data.username + "</p>");
+          alert("Beispiel erstellt!");
+        },
+        data: JSON.stringify({username: username})
+      });
+    });
+  });
+</script>
+</body>
+</html>
