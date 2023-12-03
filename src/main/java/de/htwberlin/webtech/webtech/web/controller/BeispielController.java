@@ -31,6 +31,7 @@ public class BeispielController {
     @GetMapping("/beispiel")
     public ResponseEntity<Beispiel> showBeispielPage() {
         Beispiel beispiel = new Beispiel();
+        beispiel.setId(4L);
         beispiel.setUsername("Test");
         return ResponseEntity.ok(beispiel);
     }
@@ -43,7 +44,7 @@ public class BeispielController {
     }
 
 
-    @PutMapping("/{id}")
+    @PutMapping("/put/{id}")
     public ResponseEntity<Beispiel> updateBeispiel(@PathVariable Long id, @RequestBody Beispiel updatedBeispiel) {
         Optional<Beispiel> existingBeispielOptional = repositoryBeispiel.findById(id);
 
