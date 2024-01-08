@@ -1,17 +1,13 @@
 package de.htwberlin.webtech.webtech.web.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class Beispiel {
 
     private String username; // Änderung des Attributnamens von "user" zu "username"
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Id
     private Long id;
 
 
