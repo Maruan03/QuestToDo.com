@@ -1,17 +1,23 @@
 package de.htwberlin.webtech.webtech.web.entity;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
-public class Task {    @Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-private Long id;
+public class Task {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO) // GenerationType.AUTO anstatt GenerationType.IDENTITY
+    private Long id;
     private String title;
     private String description;
     private boolean completed;
 
+    // Leerer Konstruktor für JPA
+    public Task() {}
+
+    // Konstruktor für manuelle Erstellung von Tasks
     public Task(Long id, String title, String description, boolean completed) {
         this.id = id;
         this.title = title;
@@ -19,11 +25,7 @@ private Long id;
         this.completed = completed;
     }
 
-    public Task() {
-
-    }
-
-
+    // Getter und Setter für Task-Attribute
     public Long getId() {
         return id;
     }
