@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import java.time.LocalDate;
+import java.util.List;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,6 +44,21 @@ public class TaskController {
         }
     }
 
+    @GetMapping("/byDate")
+    public ResponseEntity<List<Task>> getTasksByDate(@RequestParam("date") String date) {
+        // Hier könntest du die Logik einfügen, um Aufgaben basierend auf dem Datum zu filtern
+        // Zum Beispiel: taskService.getTasksByDate(date);
+        List<Task> tasks = taskService.getTasksByDate(date);
+        return ResponseEntity.ok(tasks);
+    }
+    @GetMapping("/byMonth")
+    public ResponseEntity<List<Task>> getTasksByMonth(@RequestParam("year") int year, @RequestParam("month") int month) {
+        LocalDate startOfMonth = LocalDate.of(year, month, 1);
+        LocalDate endOfMonth = startOfMonth.plusMonths(1).minusDays(1);
+
+        List<Task> tasks = taskService.getTasksByDateRange(startOfMonth, endOfMonth, startOfMonth, endOfMonth);
+        return ResponseEntity.ok(tasks);
+    }
 
     @PostMapping
     public ResponseEntity<Task> createTask(@RequestBody Task task) {
